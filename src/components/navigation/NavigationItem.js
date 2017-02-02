@@ -3,19 +3,20 @@ import {Link} from 'react-router';
 
 class NavigationItem extends React.Component {
 	render() {
-		debugger;
 		return (
-			<div className="navigation-item">
-				<Link to={`/${this.props.listName}`}>
-					{this.props.listName}
-				</Link>
-			</div>
+			<li>
+				<a>{this.props.listName}</a>
+			</li>
 		);
 	}
 }
 
 NavigationItem.propTypes = {
 	listName: PropTypes.string.isRequired
+};
+
+NavigationItem.contextTypes = {
+	router: PropTypes.object
 };
 
 export default NavigationItem;

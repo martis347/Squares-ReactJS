@@ -15,7 +15,6 @@ class NavigationContainer extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		debugger;
 		if (this.props.listNames != nextProps.listNames) {
 			this.setState({listNames: nextProps.listNames});
 		}
@@ -23,13 +22,11 @@ class NavigationContainer extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<NavigationComponent>
-					{this.state.listNames.map((name, index) => {
-						return <NavigationItem listName={name} key={index}/>;
-					})}
-				</NavigationComponent>
-			</div>
+			<NavigationComponent>
+				{this.state.listNames.map((name, index) => {
+					return <NavigationItem listName={name} key={index}/>;
+				})}
+			</NavigationComponent>
 		);
 	}
 }

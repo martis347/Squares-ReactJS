@@ -5,9 +5,11 @@ import Navigation from '../containers/NavigationContainer';
 class App extends React.Component {
 	render() {
 		return (
-			<div>
-				<Navigation/>
-				<div>
+			<div id="wrapper">
+				<div id="sidebar-wrapper">
+					<Navigation />
+				</div>
+				<div id="page-content-wrapper">
 					{this.props.children}
 				</div>
 			</div>
@@ -19,6 +21,5 @@ class App extends React.Component {
 App.propTypes = {
 	children: PropTypes.object.isRequired
 };
-
 
 export default connect()(App);
