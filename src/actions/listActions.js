@@ -5,12 +5,12 @@ export function getListsSuccess(lists) {
 	return {type: types.GET_LISTS_SUCCESS, lists};
 }
 
-export function postListSuccess() {
-	return {type: types.POST_LIST_SUCCESS};
+export function postListSuccess(listName) {
+	return {type: types.POST_LIST_SUCCESS, listName};
 }
 
-export function deleteListSuccess() {
-	return {type: types.DELETE_LIST_SUCCESS};
+export function deleteListSuccess(listName) {
+	return {type: types.DELETE_LIST_SUCCESS, listName};
 }
 
 export function getLists(direction) {
@@ -20,6 +20,9 @@ export function getLists(direction) {
 		};
 		dispatch(beginApiCall());
 		return fetch(`${ApiEndpoint}/lists?sort=${direction}`, params)
+			.then(result => {
+				return result.json();
+			})
 			.then(listNames => {
 				dispatch(getListsSuccess(listNames));
 			}).catch(error => {
@@ -40,7 +43,7 @@ export function addList(listName) {
 		dispatch(beginApiCall());
 		return fetch(`${ApiEndpoint}/lists`, params)
 			.then(() => {
-				dispatch(postListSuccess());
+				dispatch(postListSuccess(listName));
 			})
 			.catch(error => {
 				dispatch(apiCallError());
@@ -60,7 +63,7 @@ export function deleteList(listName) {
 		dispatch(beginApiCall());
 		return fetch(`${ApiEndpoint}/lists`, params)
 			.then(() => {
-				dispatch(deleteListSuccess());
+				dispatch(deleteListSuccess(listName));
 			})
 			.catch(error => {
 				dispatch(apiCallError());

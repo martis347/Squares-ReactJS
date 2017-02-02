@@ -1,8 +1,12 @@
 import {combineReducers} from 'redux';
-import reducer from './listReducer';
+import list from './listReducer';
+import points from './pointsReducer';
+import squares from './squaresReducer';
 
 const rootReducer = combineReducers({
-	reducer
+	list,
+	points,
+	squares
 });
 
 export default rootReducer;
