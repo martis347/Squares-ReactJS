@@ -11,7 +11,8 @@ export function getSquares(listName, page, pageSize) {
 			method: "GET"
 		};
 		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/squares/${listName}?page=${page}&pageSize=${pageSize}`, params).then(result => {
+		return fetch(`${ApiEndpoint}/squares/${listName}?pageNumber=${page}&pageSize=${pageSize}`, params).then(result => {
+			if(!result.ok) throw result;
 			return result.json();
 		}).then(squares => {
 			dispatch(getSquaresSuccess(squares));

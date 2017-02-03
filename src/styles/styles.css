@@ -12,5 +12,26 @@
 	cursor: default;
 }
 .pointsTable {
-	width: 40%;
+	width: 13%!important;
+}
+.squaresTable {
+	width: 40%!important;
+
+}
+.table-row img {
+	cursor: pointer;
+}
+
+.table th, .table td {
+	text-align: center;
+}
+#coordinates {
+	display: inline;
+	width: 80px;
+	margin: 5px;
+}
+#coordinates-btn {
+	display: inline;
+	width: 50px;
+	margin: 5px;
 }

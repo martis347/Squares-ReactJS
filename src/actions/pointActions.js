@@ -19,14 +19,12 @@ export function getPoints(listName, direction, page, pageSize) {
 			method: "GET"
 		};
 		dispatch(beginApiCall());
-		debugger;
 		return fetch(`${ApiEndpoint}/points/${listName}?sort=${direction}&pageNumber=${page}&pageSize=${pageSize}`, params).then(result => {
+			if(!result.ok) throw result;
 			return result.json();
 		}).then(points => {
+			//const result =  Object.assign({}, {Items: points.Points, ItemsCount: points.PointsCount});
 			dispatch(getPointsSuccess(points));
-		}).catch(error => {
-			dispatch(apiCallError());
-			throw(error);
 		});
 	};
 }
@@ -35,13 +33,17 @@ export function addPoints(listName, points) {
 	return function (dispatch) {
 		const params = {
 			method: "PUT",
-			body: {
+			body: JSON.stringify({
 				ListName: listName,
 				Points: points
-			}
+			}),
+			headers: new Headers({
+				'Content-Type': 'application/json'
+			})
 		};
 		dispatch(beginApiCall());
 		return fetch(`${ApiEndpoint}/points`, params).then(result => {
+			if(!result.ok) throw result;
 			return result.json();
 		}).then(() => {
 			dispatch(putPointsSuccess());
@@ -56,15 +58,17 @@ export function deletePoints(listName, points) {
 	return function (dispatch) {
 		const params = {
 			method: "DELETE",
-			body: {
+			body: JSON.stringify({
 				ListName: listName,
 				Points: points
-			}
+			}),
+			headers: new Headers({
+				'Content-Type': 'application/json'
+			})
 		};
 		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/points`, params).then(result => {
-			return result.json();
-		}).then(() => {
+		return fetch(`${ApiEndpoint}/points`, params).then((result) => {
+			if(!result.ok) throw result;
 			dispatch(deletePointsSuccess());
 		}).catch(error => {
 			dispatch(apiCallError());

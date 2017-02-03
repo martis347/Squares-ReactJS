@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 import {Router, browserHistory} from 'react-router';
 import routes from './components/routes';
 import './styles/styles.css';
+import './styles/delete.png';
 import {getLists} from "./actions/listActions";
 import {apiCallError} from "./actions/apiCallActions";
 import toastr from 'toastr';
@@ -20,6 +21,7 @@ store.dispatch(getLists("asc"))
 		//toastr.error("Failed to load lists.");
 		toastr.error(error);
 		store.dispatch(apiCallError());
+		throw(error);
 	});
 
 render(

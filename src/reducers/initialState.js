@@ -3,9 +3,17 @@ export default {
 		ListNames: []
 	},
 	points: {
-		Points: []
+		Items: [{
+			SubItems:[],
+			Name: ""
+		}],
+		ItemsCount: 0
 	},
 	squares: {
-		Squares: []
-	}
+		Items: [{
+			SubItems:[],
+			Name: ""
+		}],
+		ItemsCount: 0
+	},
 };

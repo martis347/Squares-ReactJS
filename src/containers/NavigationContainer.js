@@ -3,16 +3,16 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as listActions from '../actions/listActions';
 import * as pointsActions from '../actions/pointActions';
+import * as squaresActions from '../actions/squareActions';
 import NavigationComponent from '../components/navigation/NavigationComponent';
 import NavigationItem from '../components/navigation/NavigationItem';
-import toastr from 'toastr';
 
 class NavigationContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			loading: false,
+			activeRequests: 0,
 			listNames: []
 		};
 	}
@@ -23,27 +23,20 @@ class NavigationContainer extends React.Component {
 		}
 	}
 
-	handleListItemClick = e => {
-		this.setState({loading: true});
-		const listName = e.currentTarget.textContent;
-		this.props.pointsAction.getPoints(listName, "asc", 1, 10).then(() =>{
-			this.redirect(listName);
-		}).catch(error => {
-			toastr.error(error);
-			this.setState({loading: false});
-		});
+	handleLoadingStateChange = request => {
+		this.setState({state: this.state.activeRequests + request});
 	};
-
-	redirect(url) {
-		this.context.router.push(`/${url}`);
-		this.setState({loading: false});
-	}
 
 	render() {
 		return (
 			<NavigationComponent>
 				{this.state.listNames.map((name, index) => {
-					return <NavigationItem listName={name} key={index} onClick={this.handleListItemClick}/>;
+					return (<NavigationItem listName={name}
+											key={index}
+											activeRequests={this.handleLoadingStateChange}
+											pointsActions={this.props.pointsActions}
+											squaresActions={this.props.squaresActions}
+					/>);
 				})}
 			</NavigationComponent>
 		);
@@ -51,11 +44,8 @@ class NavigationContainer extends React.Component {
 }
 
 NavigationContainer.propTypes = {
-	listNames: PropTypes.array
-};
-
-NavigationContainer.contextTypes = {
-	router: PropTypes.object
+	listNames: PropTypes.array,
+	pointsActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -67,7 +57,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		listActions: bindActionCreators(listActions, dispatch),
-		pointsAction: bindActionCreators(pointsActions, dispatch)
+		squaresActions: bindActionCreators(squaresActions, dispatch),
+		pointsActions: bindActionCreators(pointsActions, dispatch)
 	};
 }
 

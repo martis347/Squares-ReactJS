@@ -4,7 +4,7 @@ import * as types from '../actions/actionTypes';
 export default function pointsReducer(state = initialState.points, action) {
 	switch (action.type) {
 		case types.GET_POINTS_SUCCESS: {
-			return action.points;
+			return Object.assign({}, action.points) ;
 		}
 		case types.PUT_POINTS_SUCCESS: {
 			return state;
