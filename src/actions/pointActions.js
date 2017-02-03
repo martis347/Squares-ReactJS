@@ -19,13 +19,15 @@ export function getPoints(listName, direction, page, pageSize) {
 			method: "GET"
 		};
 		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/points/${listName}?sort=${direction}&page=${page}&pageSize=${pageSize}`, params)
-			.then(points => {
-				dispatch(getPointsSuccess(points));
-			}).catch(error => {
-				dispatch(apiCallError());
-				throw(error);
-			});
+		debugger;
+		return fetch(`${ApiEndpoint}/points/${listName}?sort=${direction}&pageNumber=${page}&pageSize=${pageSize}`, params).then(result => {
+			return result.json();
+		}).then(points => {
+			dispatch(getPointsSuccess(points));
+		}).catch(error => {
+			dispatch(apiCallError());
+			throw(error);
+		});
 	};
 }
 
@@ -39,14 +41,14 @@ export function addPoints(listName, points) {
 			}
 		};
 		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/points`, params)
-			.then(() => {
-				dispatch(putPointsSuccess());
-			})
-			.catch(error => {
-				dispatch(apiCallError());
-				throw(error);
-			});
+		return fetch(`${ApiEndpoint}/points`, params).then(result => {
+			return result.json();
+		}).then(() => {
+			dispatch(putPointsSuccess());
+		}).catch(error => {
+			dispatch(apiCallError());
+			throw(error);
+		});
 	};
 }
 
@@ -60,13 +62,13 @@ export function deletePoints(listName, points) {
 			}
 		};
 		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/points`, params)
-			.then(() => {
-				dispatch(deletePointsSuccess());
-			})
-			.catch(error => {
-				dispatch(apiCallError());
-				throw(error);
-			});
+		return fetch(`${ApiEndpoint}/points`, params).then(result => {
+			return result.json();
+		}).then(() => {
+			dispatch(deletePointsSuccess());
+		}).catch(error => {
+			dispatch(apiCallError());
+			throw(error);
+		});
 	};
 }

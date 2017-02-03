@@ -11,12 +11,13 @@ export function getSquares(listName, page, pageSize) {
 			method: "GET"
 		};
 		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/squares/${listName}?page=${page}&pageSize=${pageSize}`, params)
-			.then(squares => {
-				dispatch(getSquaresSuccess(squares));
-			}).catch(error => {
-				dispatch(apiCallError());
-				throw(error);
-			});
+		return fetch(`${ApiEndpoint}/squares/${listName}?page=${page}&pageSize=${pageSize}`, params).then(result => {
+			return result.json();
+		}).then(squares => {
+			dispatch(getSquaresSuccess(squares));
+		}).catch(error => {
+			dispatch(apiCallError());
+			throw(error);
+		});
 	};
 }

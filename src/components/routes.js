@@ -2,7 +2,7 @@ import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 import App from './App';
 import Home from '../containers/HomeContainer';
-import Home2 from '../containers/HomeContainer2';
+import Home2 from '../containers/HomeContainer';
 
 export default (
 	<div>

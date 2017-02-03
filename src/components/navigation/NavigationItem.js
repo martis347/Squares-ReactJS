@@ -1,18 +1,18 @@
 import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
 
 class NavigationItem extends React.Component {
 	render() {
 		return (
 			<li>
-				<a>{this.props.listName}</a>
+				<a href="#" onClick={this.props.onClick} >{this.props.listName}</a>
 			</li>
 		);
 	}
 }
 
 NavigationItem.propTypes = {
-	listName: PropTypes.string.isRequired
+	listName: PropTypes.string.isRequired,
+	onClick: PropTypes.func.isRequired
 };
 
 NavigationItem.contextTypes = {

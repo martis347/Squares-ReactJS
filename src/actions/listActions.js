@@ -19,11 +19,9 @@ export function getLists(direction) {
 			method: "GET"
 		};
 		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/lists?sort=${direction}`, params)
-			.then(result => {
+		return fetch(`${ApiEndpoint}/lists?sort=${direction}`, params).then(result => {
 				return result.json();
-			})
-			.then(listNames => {
+			}).then(listNames => {
 				dispatch(getListsSuccess(listNames));
 			}).catch(error => {
 				dispatch(apiCallError());
@@ -41,11 +39,11 @@ export function addList(listName) {
 			}
 		};
 		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/lists`, params)
-			.then(() => {
+		return fetch(`${ApiEndpoint}/lists`, params).then(result => {
+				return result.json();
+			}).then(() => {
 				dispatch(postListSuccess(listName));
-			})
-			.catch(error => {
+			}).catch(error => {
 				dispatch(apiCallError());
 				throw(error);
 			});
@@ -61,11 +59,9 @@ export function deleteList(listName) {
 			}
 		};
 		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/lists`, params)
-			.then(() => {
+		return fetch(`${ApiEndpoint}/lists`, params).then(() => {
 				dispatch(deleteListSuccess(listName));
-			})
-			.catch(error => {
+			}).catch(error => {
 				dispatch(apiCallError());
 				throw(error);
 			});

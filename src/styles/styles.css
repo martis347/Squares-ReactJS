@@ -11,3 +11,6 @@
 .react-paginate .break a {
 	cursor: default;
 }
+.pointsTable {
+	width: 40%;
+}
