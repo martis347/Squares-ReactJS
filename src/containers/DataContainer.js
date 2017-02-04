@@ -69,13 +69,6 @@ class DataContainer extends React.Component {
 					listName={this.props.listName}
 					deletePoint={this.props.pointsActions.deletePoints}
 				/>
-
-				<SquaresComponent
-					getSquares={this.props.squareActions.getSquares}
-					listName={this.props.listName}
-					squares={this.props.squares}
-				/>
-
 				<PointsAdditionComponent
 					listName={this.props.listName}
 					addPoints={this.props.pointsActions.addPoints}
@@ -83,6 +76,13 @@ class DataContainer extends React.Component {
 					direction={"asc"}
 					getPoints={this.props.pointsActions.getPoints}
 				/>
+				<SquaresComponent
+					getSquares={this.props.squareActions.getSquares}
+					listName={this.props.listName}
+					squares={this.props.squares}
+				/>
+
+
 			</div>
 		);
 	}

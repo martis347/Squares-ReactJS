@@ -11,13 +11,16 @@
 .react-paginate .break a {
 	cursor: default;
 }
+
 .pointsTable {
-	width: 13%!important;
+	width: 13% !important;
 }
+
 .squaresTable {
-	width: 40%!important;
+	width: 40% !important;
 
 }
+
 .table-row img {
 	cursor: pointer;
 }
@@ -25,13 +28,47 @@
 .table th, .table td {
 	text-align: center;
 }
+
 #coordinates {
 	display: inline;
 	width: 80px;
 	margin: 5px;
 }
+
 #coordinates-btn {
 	display: inline;
 	width: 50px;
 	margin: 5px;
+}
+
+.navigation-item text{
+	margin-left: -15px;
+
+}
+.navigation-item a {
+	position: relative;
+	display: inline-block!important;
+	width: 170px;
+	text-align: center;
+}
+.navigation-item img {
+	position: absolute;
+	display: none;
+}
+.navigation-item:hover img {
+	position: absolute;
+	display: inline;
+	right: 10%;
+	margin-top: 10px;
+	cursor: pointer;
+}
+
+.navigation-header img {
+	position: relative;
+	margin: 0 0 10px 20px;
+	cursor: pointer;
+}
+.navigation-header h1 {
+	position: relative;
+	display: inline-block!important;
 }

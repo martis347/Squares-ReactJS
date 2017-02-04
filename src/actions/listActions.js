@@ -38,9 +38,9 @@ export function addList(listName) {
 	return function (dispatch) {
 		const params = {
 			method: "POST",
-			body: {
+			body: JSON.stringify({
 				ListName: listName
-			},
+			}),
 			headers: new Headers({
 				'Content-Type': 'application/json'
 			})
@@ -62,13 +62,14 @@ export function deleteList(listName) {
 	return function (dispatch) {
 		const params = {
 			method: "DELETE",
-			body: {
+			body: JSON.stringify({
 				ListName: listName
-			},
+			}),
 			headers: new Headers({
 				'Content-Type': 'application/json'
 			})
 		};
+		debugger;
 		dispatch(beginApiCall());
 		return fetch(`${ApiEndpoint}/lists`, params).then((result) => {
 			if(!result.ok) throw result;

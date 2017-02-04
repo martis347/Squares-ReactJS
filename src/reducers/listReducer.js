@@ -7,10 +7,11 @@ export default function listReducer(state = initialState.lists, action) {
 			return action.lists;
 		}
 		case types.POST_LIST_SUCCESS: {
-			return [...state, Object.assign({}, action.listName)];
+			debugger;
+			return Object.assign({}, state, {ListNames: [...state.ListNames, action.listName]}) ;
 		}
 		case types.DELETE_LIST_SUCCESS: {
-			return [...state.filter(list => list !== action.listName)];
+			return Object.assign({}, state, {ListNames: state.ListNames.filter(list => list !== action.listName)}) ;
 		}
 		default:
 			return state;

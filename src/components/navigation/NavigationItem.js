@@ -37,10 +37,21 @@ class NavigationItem extends React.Component {
 		this.props.activeRequests(-1);
 	}
 
+	handleDelete = () => {
+		this.props.listActions.deleteList(this.props.listName).then(() => {
+			toastr.success(`Successfully deleted list ${this.props.listName}`);
+		}).catch(error =>{
+			error.json().then( error =>{
+				toastr.error(error.Message);
+			})
+		});
+	};
+
 	render() {
 		return (
-			<li>
-				<a href="#" onClick={this.handleItemClick} >{this.props.listName}</a>
+			<li className="navigation-item">
+				<a href="#" onClick={this.handleItemClick} ><text>{this.props.listName}</text></a>
+				<img src="./styles/delete.png" onClick={this.handleDelete}/>
 			</li>
 		);
 	}
@@ -50,6 +61,7 @@ NavigationItem.propTypes = {
 	listName: PropTypes.string.isRequired,
 	pointsActions: PropTypes.object.isRequired,
 	squaresActions: PropTypes.object.isRequired,
+	listActions: PropTypes.object.isRequired,
 	activeRequests: PropTypes.func.isRequired
 };
 

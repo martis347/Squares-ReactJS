@@ -17,8 +17,9 @@ class PointsAdditionComponent extends React.Component {
 			yCoord: ""
 		});
 		this.props.addPoints(this.props.listName, [{X: this.state.xCoord, Y: this.state.yCoord}]).then(() => {
-			debugger;
-			this.props.getPoints(this.props.listName, this.props.direction, this.props.paging.page, this.props.paging.pageSize).catch(error => {
+			this.props.getPoints(this.props.listName, this.props.direction, this.props.paging.page, this.props.paging.pageSize).then(() => {
+				toastr.success("Successfully added new point!");
+			}).catch(error => {
 				error.json().then(error => {
 					toastr.error(error.Message);
 				});

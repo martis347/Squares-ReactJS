@@ -8,6 +8,7 @@ import {Router, browserHistory} from 'react-router';
 import routes from './components/routes';
 import './styles/styles.css';
 import './styles/delete.png';
+import './styles/add.png';
 import {getLists} from "./actions/listActions";
 import {apiCallError} from "./actions/apiCallActions";
 import toastr from 'toastr';
@@ -16,8 +17,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/startbootstrap-simple-sidebar/css/simple-sidebar.css';
 
 const store = configureStore();
-store.dispatch(getLists("asc"))
-	.catch((error) => {
+store.dispatch(getLists("asc")).catch((error) => {
 		//toastr.error("Failed to load lists.");
 		toastr.error(error);
 		store.dispatch(apiCallError());
