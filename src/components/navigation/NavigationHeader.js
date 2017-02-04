@@ -15,7 +15,7 @@ class NavigationHeader extends React.Component {
 	render() {
 		return (
 			<li className="navigation-header">
-				<h1>Squares</h1>
+				<h1 className="home" onClick={() => this.context.router.push("/")}>Squares</h1>
 				<img src="./styles/add.png" onClick={this.handleAddList}/>
 			</li>
 		);
@@ -24,6 +24,10 @@ class NavigationHeader extends React.Component {
 
 NavigationHeader.propTypes = {
 	listAdd: PropTypes.func.isRequired
+};
+
+NavigationHeader.contextTypes = {
+	router: PropTypes.object
 };
 
 export default NavigationHeader;

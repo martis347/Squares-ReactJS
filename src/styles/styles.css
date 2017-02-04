@@ -72,3 +72,7 @@
 	position: relative;
 	display: inline-block!important;
 }
+
+.home {
+	cursor: pointer;
+}
