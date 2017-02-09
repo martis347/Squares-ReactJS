@@ -16,16 +16,11 @@ class NavigationItem extends React.Component {
 			this.props.activeRequests(1);
 			this.props.squaresActions.getSquares(listName, 1, 5).then(() =>{
 				this.redirect(listName);
-			}).catch(error => {
-				error.json().then(error =>{
-					toastr.error(error.Message);
-				});
+			}).catch(() => {
 				this.props.activeRequests(-1);
 			});
-		}).catch(error => {
-			error.json().then(error =>{
-				toastr.error(error.Message);
-			});
+		}).catch(() => {
+			toastr.error("Failed to receive data from server.");
 			this.props.activeRequests(-1);
 		});
 
@@ -40,11 +35,9 @@ class NavigationItem extends React.Component {
 	handleDelete = () => {
 		this.props.listActions.deleteList(this.props.listName).then(() => {
 			toastr.success(`Successfully deleted list ${this.props.listName}`);
-		}).catch(error =>{
-			error.json().then( error =>{
-				toastr.error(error.Message);
-			})
-		});
+		}).catch(() => {
+			toastr.error("Failed to delete item from list.");
+		})
 	};
 
 	render() {

@@ -34,20 +34,19 @@ class DataContainer extends React.Component {
 
 	componentWillMount() {
 		this.setState({activeRequests: this.state.activeRequests + 1});
-		this.props.pointsActions.getPoints(this.props.listName, "asc", 1, this.state.paging.pageSize).catch(error => {
+		this.props.pointsActions.getPoints(this.props.listName, "asc", 1, this.state.paging.pageSize).then(()=> {
+			this.setState({activeRequests: this.state.activeRequests + 1});
+			this.props.squareActions.getSquares(this.props.listName, 1, this.state.paging.pageSize).catch(error => {
+				this.state.activeRequests(-1);
+			});
+		}).catch(error => {
 			error.json().then(error => {
 				toastr.error(error.Message);
 			});
 			this.state.activeRequests(-1);
 		});
 
-		this.setState({activeRequests: this.state.activeRequests + 1});
-		this.props.squareActions.getSquares(this.props.listName, 1, this.state.paging.pageSize).catch(error => {
-			error.json().then(error => {
-				toastr.error(error.Message);
-			});
-			this.state.activeRequests(-1);
-		});
+
 	}
 
 	componentWillReceiveProps(nextProp) {

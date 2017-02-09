@@ -7,7 +7,9 @@ class NavigationHeader extends React.Component {
 		let listName = window.prompt("Please enter a name for the new list");
 		if(listName != null){
 			this.props.listAdd(listName).then(() => {
-				toastr.success("Successfully added a list!");
+				toastr.success(`Successfully added list ${listName}`);
+			}).catch(() => {
+				toastr.error(`Failed to add ${listName}`);
 			});
 		}
 	};

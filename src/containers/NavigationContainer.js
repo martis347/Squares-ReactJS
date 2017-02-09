@@ -29,7 +29,6 @@ class NavigationContainer extends React.Component {
 	};
 
 	render() {
-		debugger;
 		return (
 			<NavigationComponent>
 				<NavigationHeader

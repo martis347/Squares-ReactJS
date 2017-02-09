@@ -13,7 +13,7 @@
 }
 
 .pointsTable {
-	width: 13% !important;
+	width: 50% !important;
 }
 
 .squaresTable {
@@ -32,19 +32,29 @@
 #coordinates {
 	display: inline;
 	width: 80px;
-	margin: 5px;
+	margin: 5px 0 5px 0;
 }
 
 #coordinates-btn {
 	display: inline;
 	width: 50px;
-	margin: 5px;
+	margin: 5px 0 5px 0;
+}
+
+.pointsComponent {
+	display: inline-block;
+}
+
+.addition-form {
+	display: inline-block;
+	position: absolute;
 }
 
 .navigation-item text{
 	margin-left: -15px;
 
 }
+
 .navigation-item a {
 	position: relative;
 	display: inline-block!important;

@@ -32,6 +32,8 @@ class PointsTableComponent extends React.Component {
 		this.props.deletePoint(this.props.listName, [deletedItem]).then(() => {
 			this.props.getPoints(this.props.listName, this.state.order, this.state.paging.page, this.state.paging.pageSize).then(() => {
 				this.setState({loading: false});
+			}).then(() => {
+				toastr.success(`Successfully deleted point {${deletedItem.X};${deletedItem.Y}}`);
 			}).catch(error => {
 				error.text().then(error => {
 					toastr.error(error);
@@ -49,9 +51,7 @@ class PointsTableComponent extends React.Component {
 		this.props.getPoints(this.props.listName, this.state.order, data.selected + 1, this.state.paging.pageSize).then(() => {
 			this.setState({loading: false});
 		}).catch(error => {
-			error.text().then(error => {
-				toastr.error(error);
-			});
+			toastr.error("Failed to receive data from server");
 			this.setState({loading: false});
 		});
 	};
@@ -67,7 +67,7 @@ class PointsTableComponent extends React.Component {
 	render() {
 		console.log(this.props.listName);
 		return (
-			<div key={this.props.listName}>
+			<div key={this.props.listName} className="pointsComponent">
 				<table className="table table-hover pointsTable">
 					<thead>
 					<tr>

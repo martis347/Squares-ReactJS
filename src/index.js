@@ -18,8 +18,7 @@ import '../node_modules/startbootstrap-simple-sidebar/css/simple-sidebar.css';
 
 const store = configureStore();
 store.dispatch(getLists("asc")).catch((error) => {
-		//toastr.error("Failed to load lists.");
-		toastr.error(error);
+		toastr.error("Unable to connect to server.");
 		store.dispatch(apiCallError());
 		throw(error);
 	});

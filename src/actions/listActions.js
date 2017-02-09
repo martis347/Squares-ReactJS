@@ -69,7 +69,6 @@ export function deleteList(listName) {
 				'Content-Type': 'application/json'
 			})
 		};
-		debugger;
 		dispatch(beginApiCall());
 		return fetch(`${ApiEndpoint}/lists`, params).then((result) => {
 			if(!result.ok) throw result;
