@@ -75,6 +75,7 @@ class DataContainer extends React.Component {
 					paging={this.state.paging}
 					direction={"asc"}
 					getPoints={this.props.pointsActions.getPoints}
+					getSquares={this.props.squareActions.getSquares}
 				/>
 				<SquaresComponent
 					getSquares={this.props.squareActions.getSquares}

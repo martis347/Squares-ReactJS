@@ -53,7 +53,7 @@ class SquaresTableComponent extends React.Component {
 
 	render() {
 		return (
-			<div className="squaresTable">
+			<div className="squaresTable" key={this.props.listName}>
 				<table className="table table-hover">
 					<thead>
 					<tr>

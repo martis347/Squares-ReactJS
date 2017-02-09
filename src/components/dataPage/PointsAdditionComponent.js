@@ -18,6 +18,8 @@ class PointsAdditionComponent extends React.Component {
 		});
 		this.props.addPoints(this.props.listName, [{X: this.state.xCoord, Y: this.state.yCoord}]).then(() => {
 			this.props.getPoints(this.props.listName, this.props.direction, this.props.paging.page, this.props.paging.pageSize).then(() => {
+				this.props.getSquares(this.props.listName, this.props.paging.page, this.props.paging.pageSize)
+			}).then(() => {
 				toastr.success("Successfully added new point!");
 			}).catch(error => {
 				error.json().then(error => {
@@ -25,6 +27,7 @@ class PointsAdditionComponent extends React.Component {
 				});
 			});
 		}).catch(error => {
+			debugger;
 			error.json().then(error => {
 				toastr.error(error.Message);
 			});
@@ -51,6 +54,7 @@ class PointsAdditionComponent extends React.Component {
 PointsAdditionComponent.propTypes = {
 	addPoints: PropTypes.func.isRequired,
 	getPoints: PropTypes.func.isRequired,
+	getSquares: PropTypes.func.isRequired,
 	listName: PropTypes.string.isRequired,
 	paging: PropTypes.object.isRequired,
 	direction: PropTypes.string.isRequired
