@@ -1,28 +1,24 @@
 import React, {PropTypes} from 'react';
-import toastr from 'toastr';
 import ReactPaginate from 'react-paginate';
+import PageSizeComponent from './PageSizeComponent';
+import toastr from 'toastr';
 
 class PointsTableComponent extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 
 		this.state = {
-			paging: {
-				pageSize: 5,
-				page: 1,
-			},
+			loading: false,
 			points: {
 				Points: [],
 				PointsCount: 0
-			},
-			order: "asc",
-			loading: false
+			}
 		};
 	}
 
-	componentWillReceiveProps(nextProp) {
-		if (this.props.points !== nextProp.points) {
-			this.setState({points: nextProp.points});
+	componentWillReceiveProps(nextProps){
+		if(this.props.points !== nextProps.points){
+			this.setState({points: nextProps.points});
 		}
 	}
 
@@ -30,7 +26,7 @@ class PointsTableComponent extends React.Component {
 		const deletedItem = data;
 		this.setState({loading: true});
 		this.props.deletePoint(this.props.listName, [deletedItem]).then(() => {
-			this.props.getPoints(this.props.listName, this.state.order, this.state.paging.page, this.state.paging.pageSize).then(() => {
+			this.props.getPoints(this.props.listName, this.props.paging.page, this.props.paging.pageSize).then(() => {
 				this.setState({loading: false});
 			}).then(() => {
 				toastr.success(`Successfully deleted point {${deletedItem.X};${deletedItem.Y}}`);
@@ -45,12 +41,25 @@ class PointsTableComponent extends React.Component {
 
 	handlePageClick = (data) => {
 		this.setState({
-			paging: Object.assign({}, this.state.paging, {page: (data.selected + 1)}),
 			loading: true
 		});
-		this.props.getPoints(this.props.listName, this.state.order, data.selected + 1, this.state.paging.pageSize).then(() => {
+		const nextPage = data.selected + 1;
+		this.props.pagingActions.changePage(nextPage);
+		this.props.getPoints(this.props.listName, nextPage, this.props.paging.pageSize).then(() => {
 			this.setState({loading: false});
-		}).catch(error => {
+		}).catch(() => {
+			toastr.error("Failed to receive data from server");
+			this.setState({loading: false});
+		});
+	};
+
+	handlePageSizeChange = (data) => {
+		this.setState({loading: true});
+		const nextPageSize = data.target.value;
+		this.props.pagingActions.changePageSize(nextPageSize);
+		this.props.getPoints(this.props.listName, 1, nextPageSize).then(() => {
+			this.setState({loading: false});
+		}).catch(() => {
 			toastr.error("Failed to receive data from server");
 			this.setState({loading: false});
 		});
@@ -58,14 +67,16 @@ class PointsTableComponent extends React.Component {
 
 	emptyLines = () => {
 		let array = [];
-		for (let i = this.state.points.Points.length; i < this.state.paging.pageSize; i++){
-			array.push(" ");
+		if (Math.ceil(this.state.points.PointsCount / this.props.paging.pageSize) > 1) {
+			for (let i = this.state.points.Points.length; i < this.props.paging.pageSize; i++) {
+				array.push(" ");
+			}
 		}
+
 		return array;
 	};
 
 	render() {
-		console.log(this.props.listName);
 		return (
 			<div key={this.props.listName} className="pointsComponent">
 				<table className="table table-hover pointsTable">
@@ -101,12 +112,12 @@ class PointsTableComponent extends React.Component {
 					</tbody>
 				</table>
 
-				<div className="tablePaginator" key={this.props.listName}>
+				<div className="tablePaginator" key={this.props.paging.pageSize}>
 					<ReactPaginate previousLabel={"previous"}
 								   nextLabel={"next"}
 								   breakLabel={<a>...</a>}
 								   breakClassName={"break-me"}
-								   pageCount={Math.ceil(this.state.points.PointsCount / this.state.paging.pageSize)}
+								   pageCount={Math.ceil(this.state.points.PointsCount / this.props.paging.pageSize)}
 								   marginPagesDisplayed={1}
 								   pageRangeDisplayed={4}
 								   onPageChange={this.handlePageClick}
@@ -116,6 +127,7 @@ class PointsTableComponent extends React.Component {
 
 					/>
 				</div>
+				<PageSizeComponent onChange={this.handlePageSizeChange} listName={this.props.listName}/>
 			</div>
 		);
 	}
@@ -124,7 +136,9 @@ class PointsTableComponent extends React.Component {
 PointsTableComponent.propTypes = {
 	getPoints: PropTypes.func.isRequired,
 	points: PropTypes.object.isRequired,
+	paging: PropTypes.object.isRequired,
 	listName: PropTypes.string.isRequired,
+	pagingActions: PropTypes.object.isRequired,
 	deletePoint: PropTypes.func
 };
 

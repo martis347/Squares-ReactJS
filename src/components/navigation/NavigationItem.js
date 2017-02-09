@@ -2,19 +2,18 @@ import React, {PropTypes} from 'react';
 import toastr from 'toastr';
 
 class NavigationItem extends React.Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
 
-		this.state = {
-		};
+		this.state = {};
 	}
 
 	handleItemClick = e => {
 		this.props.activeRequests(1);
 		const listName = e.currentTarget.textContent;
-		this.props.pointsActions.getPoints(listName, "asc", 1, 5).then(() =>{
+		this.props.pointsActions.getPoints(listName, this.props.paging.page, this.props.paging.pageSize).then(() => {
 			this.props.activeRequests(1);
-			this.props.squaresActions.getSquares(listName, 1, 5).then(() =>{
+			this.props.squaresActions.getSquares(listName, 1, 5).then(() => {
 				this.redirect(listName);
 			}).catch(() => {
 				this.props.activeRequests(-1);
@@ -37,13 +36,15 @@ class NavigationItem extends React.Component {
 			toastr.success(`Successfully deleted list ${this.props.listName}`);
 		}).catch(() => {
 			toastr.error("Failed to delete item from list.");
-		})
+		});
 	};
 
 	render() {
 		return (
 			<li className="navigation-item">
-				<a href="#" onClick={this.handleItemClick} ><text>{this.props.listName}</text></a>
+				<a href="#" onClick={this.handleItemClick}>
+					<text>{this.props.listName}</text>
+				</a>
 				<img src="./styles/delete.png" onClick={this.handleDelete}/>
 			</li>
 		);
@@ -52,6 +53,7 @@ class NavigationItem extends React.Component {
 
 NavigationItem.propTypes = {
 	listName: PropTypes.string.isRequired,
+	paging: PropTypes.object.isRequired,
 	pointsActions: PropTypes.object.isRequired,
 	squaresActions: PropTypes.object.isRequired,
 	listActions: PropTypes.object.isRequired,

@@ -10,3 +10,6 @@ export const GET_SQUARES_SUCCESS = 'GET_SQUARES_SUCCESS';
 
 export const BEGIN_API_CALL = 'BEGIN_API_CALL';
 export const API_CALL_ERROR = 'API_CALL_ERROR';
+
+export const PAGE_SIZE_CHANGE = 'PAGE_SIZE_CHANGE';
+export const PAGE_CHANGE = 'PAGE_CHANGE';

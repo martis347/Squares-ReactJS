@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import ReactPaginate from 'react-paginate';
+import PageSizeComponent from './PageSizeComponent';
 import toastr from 'toastr';
 
 class SquaresTableComponent extends React.Component {
@@ -102,10 +103,11 @@ class SquaresTableComponent extends React.Component {
 								<td><br/></td>
 								<td><br/></td>
 							</tr>
-						)
+						);
 					})}
 					</tbody>
 				</table>
+
 				<div className="tablePaginator">
 					<ReactPaginate previousLabel={"previous"}
 								   nextLabel={"next"}

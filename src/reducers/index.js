@@ -2,13 +2,13 @@ import {combineReducers} from 'redux';
 import list from './listReducer';
 import points from './pointsReducer';
 import squares from './squaresReducer';
-import navigation from './navigationReducer';
+import paging from './pagingReducer';
 
 const rootReducer = combineReducers({
 	list,
 	points,
 	squares,
-	//navigation
+	paging
 });
 
 export default rootReducer;

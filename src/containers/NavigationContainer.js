@@ -41,6 +41,7 @@ class NavigationContainer extends React.Component {
 											pointsActions={this.props.pointsActions}
 											squaresActions={this.props.squaresActions}
 											listActions={this.props.listActions}
+											paging={this.props.paging}
 					/>);
 				})}
 			</NavigationComponent>
@@ -50,6 +51,7 @@ class NavigationContainer extends React.Component {
 
 NavigationContainer.propTypes = {
 	listNames: PropTypes.array,
+	paging: PropTypes.object.isRequired,
 	pointsActions: PropTypes.object.isRequired,
 	listActions: PropTypes.object.isRequired,
 	squaresActions: PropTypes.object.isRequired
@@ -57,7 +59,8 @@ NavigationContainer.propTypes = {
 
 function mapStateToProps(state) {
 	return {
-		listNames: state.list.ListNames
+		listNames: state.list.ListNames,
+		paging: state.paging
 	};
 }
 

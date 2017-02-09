@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as pointsActions from '../actions/pointActions';
 import * as squareActions from '../actions/squareActions';
+import * as pagingActions from '../actions/pagingActions';
 import PointsComponent from '../components/dataPage/PointsTableComponent';
 import SquaresComponent from '../components/dataPage/SquaresTableComponent';
 import PointsAdditionComponent from '../components/dataPage/PointsAdditionComponent';
@@ -23,20 +24,15 @@ class DataContainer extends React.Component {
 				}],
 				SquaresCount: 0
 			},
-			paging: {
-				page: 1,
-				pageSize: 5
-			},
-			sort: "asc",
 			activeRequests: 0
 		};
 	}
 
 	componentWillMount() {
 		this.setState({activeRequests: this.state.activeRequests + 1});
-		this.props.pointsActions.getPoints(this.props.listName, "asc", 1, this.state.paging.pageSize).then(()=> {
+		this.props.pointsActions.getPoints(this.props.listName, this.props.paging.page, this.props.paging.pageSize).then(() => {
 			this.setState({activeRequests: this.state.activeRequests + 1});
-			this.props.squareActions.getSquares(this.props.listName, 1, this.state.paging.pageSize).catch(error => {
+			this.props.squareActions.getSquares(this.props.listName, 1, this.props.paging.pageSize).catch(() => {
 				this.state.activeRequests(-1);
 			});
 		}).catch(error => {
@@ -67,12 +63,13 @@ class DataContainer extends React.Component {
 					points={this.state.points}
 					listName={this.props.listName}
 					deletePoint={this.props.pointsActions.deletePoints}
+					pagingActions={this.props.pagingActions}
+					paging={this.props.paging}
 				/>
 				<PointsAdditionComponent
 					listName={this.props.listName}
 					addPoints={this.props.pointsActions.addPoints}
-					paging={this.state.paging}
-					direction={"asc"}
+					paging={this.props.paging}
 					getPoints={this.props.pointsActions.getPoints}
 					getSquares={this.props.squareActions.getSquares}
 				/>
@@ -81,8 +78,6 @@ class DataContainer extends React.Component {
 					listName={this.props.listName}
 					squares={this.props.squares}
 				/>
-
-
 			</div>
 		);
 	}
@@ -91,9 +86,11 @@ class DataContainer extends React.Component {
 DataContainer.propTypes = {
 	pointsActions: PropTypes.object.isRequired,
 	squareActions: PropTypes.object.isRequired,
+	pagingActions: PropTypes.object.isRequired,
 	points: PropTypes.object.isRequired,
 	squares: PropTypes.object.isRequired,
-	listName: PropTypes.string.isRequired
+	listName: PropTypes.string.isRequired,
+	paging: PropTypes.object.isRequired
 };
 
 DataContainer.contextTypes = {
@@ -104,14 +101,16 @@ function mapStateToProps(state, ownProps) {
 	return {
 		points: state.points,
 		squares: state.squares,
-		listName: ownProps.params.listName
+		paging: state.paging,
+		listName: ownProps.params.listName,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		pointsActions: bindActionCreators(pointsActions, dispatch),
-		squareActions: bindActionCreators(squareActions, dispatch)
+		squareActions: bindActionCreators(squareActions, dispatch),
+		pagingActions: bindActionCreators(pagingActions, dispatch)
 	};
 }
 

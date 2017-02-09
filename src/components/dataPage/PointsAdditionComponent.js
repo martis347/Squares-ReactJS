@@ -20,7 +20,7 @@ class PointsAdditionComponent extends React.Component {
 	handleAdd = () => {
 		const X = this.state.xCoord, Y = this.state.yCoord;
 		this.props.addPoints(this.props.listName, [{X: this.state.xCoord, Y: this.state.yCoord}]).then(() => {
-			this.props.getPoints(this.props.listName, this.props.direction, this.props.paging.page, this.props.paging.pageSize).then(() => {
+			this.props.getPoints(this.props.listName, this.props.paging.page, this.props.paging.pageSize).then(() => {
 				this.props.getSquares(this.props.listName, this.props.paging.page, this.props.paging.pageSize).catch(() => {
 					toastr.error("Failed to receive data from server");
 				});
@@ -62,6 +62,10 @@ class PointsAdditionComponent extends React.Component {
 		}));
 	}
 
+	pageChange(page) {
+		this.setState(Object.assign({}, this.state, this.state.paging));
+	}
+
 	render() {
 		return (
 			<div className="addition-form">
@@ -92,13 +96,6 @@ class PointsAdditionComponent extends React.Component {
 						}}/>
 						<button type="submit" disabled={!this.state.canAdd} onClick={this.handleAdd} className="btn btn-primary" id="coordinates-btn" placeholder="">Add</button>
 					</Formsy.Form>
-					{/*<label>Add new coordinates</label>
-					<input className="form-control" id="coordinates" placeholder="X" value={this.state.xCoord}
-						   onChange={(e) => this.setState({xCoord: e.target.value})}/>
-					<input className="form-control" id="coordinates" placeholder="Y" value={this.state.yCoord}
-						   onChange={(e) => this.setState({yCoord: e.target.value})}/>
-					<button className="form-control" id="coordinates-btn" placeholder="" onClick={this.handleAdd}>Add
-					</button>*/}
 				</div>
 			</div>
 		);
@@ -111,7 +108,7 @@ PointsAdditionComponent.propTypes = {
 	getSquares: PropTypes.func.isRequired,
 	listName: PropTypes.string.isRequired,
 	paging: PropTypes.object.isRequired,
-	direction: PropTypes.string.isRequired
+	deletePoints: PropTypes.func
 };
 
 export default PointsAdditionComponent;

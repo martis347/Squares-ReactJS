@@ -86,3 +86,7 @@
 .home {
 	cursor: pointer;
 }
+
+.pageSizePicker {
+	width: 65px;
+}

@@ -13,13 +13,13 @@ export function deletePointsSuccess() {
 	return {type: types.DELETE_POINTS_SUCCESS};
 }
 
-export function getPoints(listName, direction, page, pageSize) {
+export function getPoints(listName, page, pageSize) {
 	return function (dispatch) {
 		const params = {
 			method: "GET"
 		};
 		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/points/${listName}?sort=${direction}&pageNumber=${page}&pageSize=${pageSize}`, params).then(result => {
+		return fetch(`${ApiEndpoint}/points/${listName}?pageNumber=${page}&pageSize=${pageSize}`, params).then(result => {
 			if(!result.ok) throw result;
 			return result.json();
 		}).then(points => {
