@@ -114,7 +114,7 @@ class SquaresTableComponent extends React.Component {
 					</tbody>
 				</table>
 
-				<div className="tablePaginator">
+				<div className="tablePaginator" key={this.props.paging.pageSize}>
 					<ReactPaginate previousLabel={"previous"}
 								   nextLabel={"next"}
 								   breakLabel={<a>...</a>}

@@ -32,8 +32,10 @@ class NavigationItem extends React.Component {
 	}
 
 	handleDelete = () => {
-		this.props.listActions.deleteList(this.props.listName).then(() => {
-			toastr.success(`Successfully deleted list ${this.props.listName}`);
+		const listName = this.props.listName;
+		this.props.listActions.deleteList(listName).then(() => {
+			debugger;
+			toastr.success(`Successfully deleted list ${listName}`);
 		}).catch(() => {
 			toastr.error("Failed to delete item from list.");
 		});
