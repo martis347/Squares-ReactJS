@@ -13,11 +13,12 @@ const InputForm = React.createClass({
 
 	render() {
 		const errorMessage = this.getErrorMessage();
-
+		if(errorMessage){
+			toastr.warning(errorMessage)
+		}
 		return (
 			<div>
 				<input className="form-control" id="coordinates" type="text" placeholder={this.props.placeholder} onChange={this.props.onChange} value={this.props.value}/>
-				<span>{errorMessage && toastr["warning"](errorMessage)}</span>
 			</div>
 		);
 	}
