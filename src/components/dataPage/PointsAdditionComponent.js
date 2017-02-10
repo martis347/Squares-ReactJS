@@ -79,7 +79,6 @@ class PointsAdditionComponent extends React.Component {
 				toastr.error(error.Message);
 			});
 		});
-		debugger;
 	}
 		;
 
@@ -91,7 +90,6 @@ class PointsAdditionComponent extends React.Component {
 	};
 
 	render() {
-		console.log(this.state.xCoord);
 		return (
 			<div className="addition-form" key={this.props.listName}>
 				<div className="form-group">

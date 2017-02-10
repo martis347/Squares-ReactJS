@@ -77,7 +77,6 @@ class PointsTableComponent extends React.Component {
 	};
 
 	render() {
-		debugger;
 		return (
 			<div key={this.props.listName} className="pointsComponent">
 				<table className="table table-hover pointsTable">

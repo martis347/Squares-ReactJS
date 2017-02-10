@@ -23,7 +23,6 @@ export function getPoints(listName, page, pageSize) {
 			if(!result.ok) throw result;
 			return result.json();
 		}).then(points => {
-			//const result =  Object.assign({}, {Items: points.Points, ItemsCount: points.PointsCount});
 			dispatch(getPointsSuccess(points));
 		});
 	};
