@@ -1,9 +1,11 @@
 import React, {PropTypes} from 'react';
 import Formsy from 'formsy-react';
+import toastr from 'toastr';
 
 const InputForm = React.createClass({
 	propTypes: {
 		placeholder: PropTypes.string.isRequired,
+		value: PropTypes.string.isRequired,
 		onChange: PropTypes.func.isRequired
 	},
 
@@ -14,8 +16,8 @@ const InputForm = React.createClass({
 
 		return (
 			<div>
-				<input className="form-control" id="coordinates" type="text" placeholder={this.props.placeholder} onChange={this.props.onChange}/>
-				<span>{errorMessage}</span>
+				<input className="form-control" id="coordinates" type="text" placeholder={this.props.placeholder} onChange={this.props.onChange} value={this.props.value}/>
+				<span>{errorMessage && toastr["warning"](errorMessage)}</span>
 			</div>
 		);
 	}

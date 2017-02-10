@@ -17,7 +17,13 @@ export default {
 		ItemsCount: 0
 	},
 	paging: {
-		pageSize: 1,
-		page: 1
+		squares: {
+			pageSize: 5,
+			page: 1
+		},
+		points: {
+			pageSize: 5,
+			page: 1
+		}
 	}
 };

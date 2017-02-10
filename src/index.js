@@ -16,6 +16,13 @@ import '../node_modules/toastr/build/toastr.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/startbootstrap-simple-sidebar/css/simple-sidebar.css';
 
+toastr.options = {
+	"closeButton": true,
+	"progressBar": true,
+	"preventDuplicates": true,
+	"newestOnTop": true,
+};
+
 const store = configureStore();
 store.dispatch(getLists("asc")).catch((error) => {
 		toastr.error("Unable to connect to server.");

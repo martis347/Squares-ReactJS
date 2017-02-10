@@ -10,11 +10,8 @@ class PointsAdditionComponent extends React.Component {
 
 		this.state = {
 			xCoord: "",
-			yCoord: "",
-			canAdd: true
+			yCoord: ""
 		};
-		this.enableButton = this.enableButton.bind(this);
-		this.disableButton = this.disableButton.bind(this);
 	}
 
 	handleAdd = () => {
@@ -47,34 +44,23 @@ class PointsAdditionComponent extends React.Component {
 		});
 	};
 
-	enableButton() {
-		this.setState(Object.assign({}, this.state, {canAdd: true}));
-	}
-
-	disableButton() {
-		this.setState(Object.assign({}, this.state, {canAdd: false}));
-	}
-
-	validSubmit() {
-		this.setState(Object.assign({}, this.state, {
+	submit = () => {
+		this.setState({
 			xCoord: "",
 			yCoord: ""
-		}));
-	}
-
-	pageChange(page) {
-		this.setState(Object.assign({}, this.state, this.state.paging));
-	}
+		});
+	};
 
 	render() {
+		console.log(this.state.xCoord);
 		return (
-			<div className="addition-form">
+			<div className="addition-form" key={this.props.listName} >
 				<div className="form-group">
 					<label>Add new coordinates</label>
-					<Formsy.Form onValidSubmit={this.validSubmit} onValid={this.enableButton} onInvalid={this.disableButton}>
+					<Formsy.Form onValidSubmit={this.submit}>
 						<InputForm name="coordinatesX"
 								   placeholder="X"
-								   validationError="Coordinates value must be numeric and between {-5000;5000}"
+								   validationError="Coordinates values must be numeric and between {-5000;5000}"
 								   required
 								   value={this.state.xCoord}
 								   onChange={(e) => this.setState({xCoord: e.target.value})}
@@ -85,7 +71,7 @@ class PointsAdditionComponent extends React.Component {
 						}}/>
 						<InputForm name="coordinatesY"
 								   placeholder="Y"
-								   validationError="Coordinates value must be numeric and between {-5000;5000}"
+								   validationError="Coordinates values must be numeric and between {-5000;5000}"
 								   required
 								   value={this.state.yCoord}
 								   onChange={(e) => this.setState({yCoord: e.target.value})}
@@ -94,7 +80,7 @@ class PointsAdditionComponent extends React.Component {
 										return value <= 5000 && value >= -5000;
 									}
 						}}/>
-						<button type="submit" disabled={!this.state.canAdd} onClick={this.handleAdd} className="btn btn-primary" id="coordinates-btn" placeholder="">Add</button>
+						<button type="submit" onClick={this.handleAdd} className="btn btn-primary" id="coordinates-btn" placeholder="">Add</button>
 					</Formsy.Form>
 				</div>
 			</div>

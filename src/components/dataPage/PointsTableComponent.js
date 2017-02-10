@@ -44,7 +44,7 @@ class PointsTableComponent extends React.Component {
 			loading: true
 		});
 		const nextPage = data.selected + 1;
-		this.props.pagingActions.changePage(nextPage);
+		this.props.pagingActions.changePointsPage(nextPage);
 		this.props.getPoints(this.props.listName, nextPage, this.props.paging.pageSize).then(() => {
 			this.setState({loading: false});
 		}).catch(() => {
@@ -56,7 +56,7 @@ class PointsTableComponent extends React.Component {
 	handlePageSizeChange = (data) => {
 		this.setState({loading: true});
 		const nextPageSize = data.target.value;
-		this.props.pagingActions.changePageSize(nextPageSize);
+		this.props.pagingActions.changePointsPageSize(nextPageSize);
 		this.props.getPoints(this.props.listName, 1, nextPageSize).then(() => {
 			this.setState({loading: false});
 		}).catch(() => {

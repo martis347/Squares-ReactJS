@@ -30,9 +30,9 @@ class DataContainer extends React.Component {
 
 	componentWillMount() {
 		this.setState({activeRequests: this.state.activeRequests + 1});
-		this.props.pointsActions.getPoints(this.props.listName, this.props.paging.page, this.props.paging.pageSize).then(() => {
+		this.props.pointsActions.getPoints(this.props.listName, this.props.paging.points.page, this.props.paging.points.pageSize).then(() => {
 			this.setState({activeRequests: this.state.activeRequests + 1});
-			this.props.squareActions.getSquares(this.props.listName, 1, this.props.paging.pageSize).catch(() => {
+			this.props.squareActions.getSquares(this.props.listName, this.props.paging.squares.page, this.props.paging.squares.pageSize).catch(() => {
 				this.state.activeRequests(-1);
 			});
 		}).catch(error => {
@@ -64,12 +64,12 @@ class DataContainer extends React.Component {
 					listName={this.props.listName}
 					deletePoint={this.props.pointsActions.deletePoints}
 					pagingActions={this.props.pagingActions}
-					paging={this.props.paging}
+					paging={this.props.paging.points}
 				/>
 				<PointsAdditionComponent
 					listName={this.props.listName}
 					addPoints={this.props.pointsActions.addPoints}
-					paging={this.props.paging}
+					paging={this.props.paging.points}
 					getPoints={this.props.pointsActions.getPoints}
 					getSquares={this.props.squareActions.getSquares}
 				/>
@@ -77,6 +77,8 @@ class DataContainer extends React.Component {
 					getSquares={this.props.squareActions.getSquares}
 					listName={this.props.listName}
 					squares={this.props.squares}
+					paging={this.props.paging.squares}
+					pagingActions={this.props.pagingActions}
 				/>
 			</div>
 		);

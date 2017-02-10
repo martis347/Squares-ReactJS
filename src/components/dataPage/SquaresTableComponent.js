@@ -8,17 +8,12 @@ class SquaresTableComponent extends React.Component {
 		super(props, context);
 
 		this.state = {
-			paging: {
-				pageSize: 5,
-				page: 1,
-			},
 			squares: {
 				Squares: [{
 					Points: []
 				}],
 				SquaresCount: 0
 			},
-			order: "asc",
 			loading: false
 		};
 	}
@@ -31,22 +26,33 @@ class SquaresTableComponent extends React.Component {
 
 	handlePageClick = (data) => {
 		this.setState({
-			paging: Object.assign({}, this.state.paging, {page: (data.selected + 1)}),
 			loading: true
 		});
-		this.props.getSquares(this.props.listName, data.selected + 1, this.state.paging.pageSize).then(() => {
+		const nextPage = data.selected + 1;
+		this.props.pagingActions.changeSquaresPage(nextPage);
+		this.props.getSquares(this.props.listName, nextPage, this.props.paging.pageSize).then(() => {
 			this.setState({loading: false});
-		}).catch(error => {
-			error.text().then(error =>{
-				toastr.error(error);
-			});
+		}).catch(() => {
+			toastr.error("Failed to receive data from server");
+			this.setState({loading: false});
+		});
+	};
+
+	handlePageSizeChange = (data) => {
+		this.setState({loading: true});
+		const nextPageSize = data.target.value;
+		this.props.pagingActions.changeSquaresPageSize(nextPageSize);
+		this.props.getSquares(this.props.listName, 1, nextPageSize).then(() => {
+			this.setState({loading: false});
+		}).catch(() => {
+			toastr.error("Failed to receive data from server");
 			this.setState({loading: false});
 		});
 	};
 
 	emptyLines = () => {
 		let array = [];
-		for (let i = this.state.squares.Squares.length; i < this.state.paging.pageSize; i++){
+		for (let i = this.state.squares.Squares.length; i < this.props.paging.pageSize; i++){
 			array.push(" ");
 		}
 		return array;
@@ -113,7 +119,7 @@ class SquaresTableComponent extends React.Component {
 								   nextLabel={"next"}
 								   breakLabel={<a>...</a>}
 								   breakClassName={"break-me"}
-								   pageCount={Math.ceil(this.state.squares.SquaresCount / this.state.paging.pageSize)}
+								   pageCount={Math.ceil(this.state.squares.SquaresCount / this.props.paging.pageSize)}
 								   marginPagesDisplayed={1}
 								   pageRangeDisplayed={4}
 								   onPageChange={this.handlePageClick}
@@ -121,6 +127,7 @@ class SquaresTableComponent extends React.Component {
 								   subContainerClassName={"pages pagination"}
 								   activeClassName={"active"}/>
 				</div>
+				<PageSizeComponent onChange={this.handlePageSizeChange} listName={this.props.listName}/>
 			</div>
 
 		);
@@ -131,6 +138,8 @@ SquaresTableComponent.propTypes = {
 	squares: PropTypes.object.isRequired,
 	getSquares: PropTypes.func.isRequired,
 	listName: PropTypes.string.isRequired,
+	pagingActions: PropTypes.object.isRequired,
+	paging: PropTypes.object.isRequired
 };
 
 export default SquaresTableComponent;

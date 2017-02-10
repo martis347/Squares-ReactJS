@@ -11,9 +11,9 @@ class NavigationItem extends React.Component {
 	handleItemClick = e => {
 		this.props.activeRequests(1);
 		const listName = e.currentTarget.textContent;
-		this.props.pointsActions.getPoints(listName, this.props.paging.page, this.props.paging.pageSize).then(() => {
+		this.props.pointsActions.getPoints(listName, this.props.paging.points.page, this.props.paging.points.pageSize).then(() => {
 			this.props.activeRequests(1);
-			this.props.squaresActions.getSquares(listName, 1, 5).then(() => {
+			this.props.squaresActions.getSquares(listName, this.props.paging.squares.page, this.props.paging.squares.pageSize).then(() => {
 				this.redirect(listName);
 			}).catch(() => {
 				this.props.activeRequests(-1);
