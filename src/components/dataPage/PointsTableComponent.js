@@ -97,7 +97,7 @@ class PointsTableComponent extends React.Component {
 								<td>{point.X}</td>
 								<td>{point.Y}</td>
 								<td onClick={() => this.handleRowDelete(point)}>
-									<img src="./styles/delete.png"/>
+									<img src="./delete.png"/>
 								</td>
 							</tr>);
 					})}

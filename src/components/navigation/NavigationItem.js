@@ -46,7 +46,7 @@ class NavigationItem extends React.Component {
 				<a href="#" onClick={this.handleItemClick}>
 					<text>{this.props.listName}</text>
 				</a>
-				<img src="./styles/delete.png" onClick={this.handleDelete}/>
+				<img src="./delete.png" onClick={this.handleDelete}/>
 			</li>
 		);
 	}

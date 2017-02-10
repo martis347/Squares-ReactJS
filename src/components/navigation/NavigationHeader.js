@@ -18,7 +18,7 @@ class NavigationHeader extends React.Component {
 		return (
 			<li className="navigation-header">
 				<h1 className="home" onClick={() => this.context.router.push("/")}>Squares</h1>
-				<img src="./styles/add.png" onClick={this.handleAddList}/>
+				<img src="./add.png" onClick={this.handleAddList}/>
 			</li>
 		);
 	}
