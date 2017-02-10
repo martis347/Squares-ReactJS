@@ -13,7 +13,6 @@ class NavigationContainer extends React.Component {
 		super(props);
 
 		this.state = {
-			activeRequests: 0,
 			listNames: []
 		};
 	}
@@ -24,10 +23,6 @@ class NavigationContainer extends React.Component {
 		}
 	}
 
-	handleLoadingStateChange = request => {
-		this.setState({state: this.state.activeRequests + request});
-	};
-
 	render() {
 		return (
 			<NavigationComponent>
@@ -37,7 +32,6 @@ class NavigationContainer extends React.Component {
 				{this.state.listNames.map((name, index) => {
 					return (<NavigationItem listName={name}
 											key={index}
-											activeRequests={this.handleLoadingStateChange}
 											pointsActions={this.props.pointsActions}
 											squaresActions={this.props.squaresActions}
 											listActions={this.props.listActions}

@@ -1,5 +1,4 @@
 import * as types from './actionTypes';
-import {beginApiCall, apiCallError, ApiEndpoint} from './apiCallActions';
 import toastr from 'toastr';
 
 export function getListsSuccess(lists) {
@@ -19,8 +18,7 @@ export function getLists(direction) {
 		const params = {
 			method: "GET"
 		};
-		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/lists?sort=${direction}`, params).then(result => {
+		return fetch(`${types.ApiEndpoint}/lists?sort=${direction}`, params).then(result => {
 			if (!result.ok) throw result;
 			return result.json();
 		}).then(listNames => {
@@ -29,7 +27,6 @@ export function getLists(direction) {
 			error.json().then(error =>{
 				toastr.error(error.Message);
 			});
-			dispatch(apiCallError());
 		});
 	};
 }
@@ -45,14 +42,12 @@ export function addList(listName) {
 				'Content-Type': 'application/json'
 			})
 		};
-		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/lists`, params).then(result => {
+		return fetch(`${types.ApiEndpoint}/lists`, params).then(result => {
 			if(!result.ok) throw result;
 			return result.json();
 		}).then(() => {
 			dispatch(postListSuccess(listName));
 		}).catch(error => {
-			dispatch(apiCallError());
 			throw(error);
 		});
 	};
@@ -69,12 +64,10 @@ export function deleteList(listName) {
 				'Content-Type': 'application/json'
 			})
 		};
-		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/lists`, params).then((result) => {
+		return fetch(`${types.ApiEndpoint}/lists`, params).then((result) => {
 			if(!result.ok) throw result;
 			dispatch(deleteListSuccess(listName));
 		}).catch(error => {
-			dispatch(apiCallError());
 			throw(error);
 		});
 	};

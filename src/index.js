@@ -10,7 +10,6 @@ import './styles/styles.css';
 import './delete.png';
 import './add.png';
 import {getLists} from "./actions/listActions";
-import {apiCallError} from "./actions/apiCallActions";
 import toastr from 'toastr';
 import '../node_modules/toastr/build/toastr.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -26,7 +25,6 @@ toastr.options = {
 const store = configureStore();
 store.dispatch(getLists("asc")).catch((error) => {
 		toastr.error("Unable to connect to server.");
-		store.dispatch(apiCallError());
 		throw(error);
 	});
 

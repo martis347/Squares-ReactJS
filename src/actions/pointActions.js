@@ -1,5 +1,4 @@
 import * as types from './actionTypes';
-import {beginApiCall, apiCallError, ApiEndpoint} from './apiCallActions';
 
 export function getPointsSuccess(points) {
 	return {type: types.GET_POINTS_SUCCESS, points};
@@ -18,8 +17,7 @@ export function getPoints(listName, page, pageSize) {
 		const params = {
 			method: "GET"
 		};
-		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/points/${listName}?pageNumber=${page}&pageSize=${pageSize}`, params).then(result => {
+		return fetch(`${types.ApiEndpoint}/points/${listName}?pageNumber=${page}&pageSize=${pageSize}`, params).then(result => {
 			if(!result.ok) throw result;
 			return result.json();
 		}).then(points => {
@@ -40,14 +38,12 @@ export function addPoints(listName, points) {
 				'Content-Type': 'application/json'
 			})
 		};
-		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/points`, params).then(result => {
+		return fetch(`${types.ApiEndpoint}/points`, params).then(result => {
 			if(!result.ok) throw result;
 			return result.json();
 		}).then(() => {
 			dispatch(putPointsSuccess());
 		}).catch(error => {
-			dispatch(apiCallError());
 			throw(error);
 		});
 	};
@@ -65,12 +61,10 @@ export function deletePoints(listName, points) {
 				'Content-Type': 'application/json'
 			})
 		};
-		dispatch(beginApiCall());
-		return fetch(`${ApiEndpoint}/points`, params).then((result) => {
+		return fetch(`${types.ApiEndpoint}/points`, params).then((result) => {
 			if(!result.ok) throw result;
 			dispatch(deletePointsSuccess());
 		}).catch(error => {
-			dispatch(apiCallError());
 			throw(error);
 		});
 	};

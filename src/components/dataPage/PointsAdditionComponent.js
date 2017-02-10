@@ -12,35 +12,18 @@ class PointsAdditionComponent extends React.Component {
 			xCoord: "",
 			yCoord: ""
 		};
+
+		this.handleError = this.handleError.bind(this);
+		this.updateData = this.updateData.bind(this);
 	}
 
 	handleAdd = () => {
 		const X = this.state.xCoord, Y = this.state.yCoord;
+
 		this.props.addPoints(this.props.listName, [{X: this.state.xCoord, Y: this.state.yCoord}]).then(() => {
-			this.props.getPoints(this.props.listName, this.props.paging.page, this.props.paging.pageSize).then(() => {
-				this.props.getSquares(this.props.listName, this.props.paging.page, this.props.paging.pageSize).catch(() => {
-					toastr.error("Failed to receive data from server");
-				});
-			}).then(() => {
-				toastr.success(`Successfully added new point {${X};${Y}}`);
-			}).catch(() => {
-				toastr.error("Failed to receive data from server");
-			});
+			this.updateData(`Successfully added new point {${X};${Y}}`, this.props.paging);
 		}).catch(error => {
-			if (error.message !== undefined) {
-				toastr.error("Unable to add a new point. Server is not responding.");
-			} else {
-				error.json().then(error => {
-					if (error.Message.substring(0, 19) === "Requests is invalid") {
-						toastr.warning("Invalid coordinates provided. Point not added.");
-					} else {
-						toastr.error(error.Message);
-					}
-				});
-			}
-			error.json().then(error => {
-				toastr.error(error.Message);
-			});
+			this.handleError(error, "Invalid coordinates provided.");
 		});
 	};
 
@@ -54,33 +37,42 @@ class PointsAdditionComponent extends React.Component {
 		}
 
 		this.props.addPoints(this.props.listName, request).then(() => {
-			this.props.getPoints(this.props.listName, this.props.paging.page, this.props.paging.pageSize).then(() => {
-				this.props.getSquares(this.props.listName, this.props.paging.page, this.props.paging.pageSize).catch(() => {
-					toastr.error("Failed to receive data from server");
-				});
-			}).then(() => {
-				toastr.success(`Successfully added list of points`);
-			}).catch(() => {
+			this.updateData(`Successfully added list of points`, this.props.paging);
+		}).catch(error => {
+			this.handleError(error, "File is invalid.");
+		});
+	};
+
+	updateData = (successMessage, paging) => {
+		debugger;
+		this.props.getPoints(this.props.listName, paging.points.page, paging.points.pageSize).then(() => {
+			this.props.getSquares(this.props.listName, paging.squares.page, paging.squares.pageSize).catch(() => {
 				toastr.error("Failed to receive data from server");
 			});
-		}).catch(error => {
-			if (error.message !== undefined) {
-				toastr.error("Unable to add a new points. Server is not responding.");
-			} else {
-				error.json().then(error => {
-					if (error.Message.substring(0, 19) === "Requests is invalid") {
-						toastr.warning("File is invalid.");
-					} else {
-						toastr.error(error.Message);
-					}
-				});
-			}
-			error.json().then(error => {
-				toastr.error(error.Message);
-			});
+		}).then(() => {
+			toastr.success(successMessage);
+		}).catch(() => {
+			toastr.error("Failed to receive data from server");
 		});
-	}
-		;
+	};
+
+	handleError = (error, message) => {
+		debugger;
+		if (error.message !== undefined) {
+			toastr.error("Unable to add a new points. Server is not responding.");
+		} else {
+			error.json().then(error => {
+				if (error.Message.substring(0, 19) === "Requests is invalid") {
+					toastr.warning(message);
+				} else {
+					toastr.error(error.Message);
+				}
+			});
+		}
+		error.json().then(error => {
+			toastr.error(error.Message);
+		});
+	};
 
 	submit = () => {
 		this.setState({

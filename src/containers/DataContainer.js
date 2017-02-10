@@ -69,7 +69,7 @@ class DataContainer extends React.Component {
 				<PointsAdditionComponent
 					listName={this.props.listName}
 					addPoints={this.props.pointsActions.addPoints}
-					paging={this.props.paging.points}
+					paging={this.props.paging}
 					getPoints={this.props.pointsActions.getPoints}
 					getSquares={this.props.squareActions.getSquares}
 				/>

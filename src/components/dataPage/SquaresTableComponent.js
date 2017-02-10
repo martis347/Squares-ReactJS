@@ -14,7 +14,6 @@ class SquaresTableComponent extends React.Component {
 				}],
 				SquaresCount: 0
 			},
-			loading: false
 		};
 	}
 
@@ -25,28 +24,18 @@ class SquaresTableComponent extends React.Component {
 	}
 
 	handlePageClick = (data) => {
-		this.setState({
-			loading: true
-		});
 		const nextPage = data.selected + 1;
 		this.props.pagingActions.changeSquaresPage(nextPage);
-		this.props.getSquares(this.props.listName, nextPage, this.props.paging.pageSize).then(() => {
-			this.setState({loading: false});
-		}).catch(() => {
+		this.props.getSquares(this.props.listName, nextPage, this.props.paging.pageSize).catch(() => {
 			toastr.error("Failed to receive data from server");
-			this.setState({loading: false});
 		});
 	};
 
 	handlePageSizeChange = (data) => {
-		this.setState({loading: true});
 		const nextPageSize = data.target.value;
 		this.props.pagingActions.changeSquaresPageSize(nextPageSize);
-		this.props.getSquares(this.props.listName, 1, nextPageSize).then(() => {
-			this.setState({loading: false});
-		}).catch(() => {
+		this.props.getSquares(this.props.listName, 1, nextPageSize).catch(() => {
 			toastr.error("Failed to receive data from server");
-			this.setState({loading: false});
 		});
 	};
 

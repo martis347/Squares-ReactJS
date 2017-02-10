@@ -8,7 +8,6 @@ class PointsTableComponent extends React.Component {
 		super(props, context);
 
 		this.state = {
-			loading: false,
 			points: {
 				Points: [],
 				PointsCount: 0
@@ -24,44 +23,30 @@ class PointsTableComponent extends React.Component {
 
 	handleRowDelete = (data) => {
 		const deletedItem = data;
-		this.setState({loading: true});
 		this.props.deletePoint(this.props.listName, [deletedItem]).then(() => {
 			this.props.getPoints(this.props.listName, this.props.paging.page, this.props.paging.pageSize).then(() => {
-				this.setState({loading: false});
-			}).then(() => {
 				toastr.success(`Successfully deleted point {${deletedItem.X};${deletedItem.Y}}`);
 			}).catch(error => {
 				error.text().then(error => {
 					toastr.error(error);
 				});
-				this.setState({loading: false});
 			});
 		});
 	};
 
 	handlePageClick = (data) => {
-		this.setState({
-			loading: true
-		});
 		const nextPage = data.selected + 1;
 		this.props.pagingActions.changePointsPage(nextPage);
-		this.props.getPoints(this.props.listName, nextPage, this.props.paging.pageSize).then(() => {
-			this.setState({loading: false});
-		}).catch(() => {
+		this.props.getPoints(this.props.listName, nextPage, this.props.paging.pageSize).catch(() => {
 			toastr.error("Failed to receive data from server");
-			this.setState({loading: false});
 		});
 	};
 
 	handlePageSizeChange = (data) => {
-		this.setState({loading: true});
 		const nextPageSize = data.target.value;
 		this.props.pagingActions.changePointsPageSize(nextPageSize);
-		this.props.getPoints(this.props.listName, 1, nextPageSize).then(() => {
-			this.setState({loading: false});
-		}).catch(() => {
+		this.props.getPoints(this.props.listName, 1, nextPageSize).catch(() => {
 			toastr.error("Failed to receive data from server");
-			this.setState({loading: false});
 		});
 	};
 
