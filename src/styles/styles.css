@@ -90,3 +90,9 @@
 .pageSizePicker {
 	width: 65px;
 }
+
+.fileInput {
+	position: fixed;
+	right:50px;
+
+}

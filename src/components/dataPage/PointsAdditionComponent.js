@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import toastr from 'toastr';
 import Formsy from 'formsy-react';
 import InputForm from './InputForm';
-
+import FileInput from './FileInput';
 
 class PointsAdditionComponent extends React.Component {
 	constructor(props, context) {
@@ -27,11 +27,11 @@ class PointsAdditionComponent extends React.Component {
 				toastr.error("Failed to receive data from server");
 			});
 		}).catch(error => {
-			if(error.message !== undefined){
+			if (error.message !== undefined) {
 				toastr.error("Unable to add a new point. Server is not responding.");
 			} else {
 				error.json().then(error => {
-					if(error.Message.substring(0, 19) === "Requests is invalid"){
+					if (error.Message.substring(0, 19) === "Requests is invalid") {
 						toastr.warning("Invalid coordinates provided. Point not added.");
 					} else {
 						toastr.error(error.Message);
@@ -44,6 +44,45 @@ class PointsAdditionComponent extends React.Component {
 		});
 	};
 
+	handleFileUpload = coordinatesList => {
+		let request = [];
+		for (let coordinate of coordinatesList) {
+			if (coordinate !== undefined) {
+				const points = coordinate.split(" ");
+				request.push({X: points[0], Y: points[1]});
+			}
+		}
+
+		this.props.addPoints(this.props.listName, request).then(() => {
+			this.props.getPoints(this.props.listName, this.props.paging.page, this.props.paging.pageSize).then(() => {
+				this.props.getSquares(this.props.listName, this.props.paging.page, this.props.paging.pageSize).catch(() => {
+					toastr.error("Failed to receive data from server");
+				});
+			}).then(() => {
+				toastr.success(`Successfully added list of points`);
+			}).catch(() => {
+				toastr.error("Failed to receive data from server");
+			});
+		}).catch(error => {
+			if (error.message !== undefined) {
+				toastr.error("Unable to add a new points. Server is not responding.");
+			} else {
+				error.json().then(error => {
+					if (error.Message.substring(0, 19) === "Requests is invalid") {
+						toastr.warning("File is invalid.");
+					} else {
+						toastr.error(error.Message);
+					}
+				});
+			}
+			error.json().then(error => {
+				toastr.error(error.Message);
+			});
+		});
+		debugger;
+	}
+		;
+
 	submit = () => {
 		this.setState({
 			xCoord: "",
@@ -54,7 +93,7 @@ class PointsAdditionComponent extends React.Component {
 	render() {
 		console.log(this.state.xCoord);
 		return (
-			<div className="addition-form" key={this.props.listName} >
+			<div className="addition-form" key={this.props.listName}>
 				<div className="form-group">
 					<label>Add new coordinates</label>
 					<Formsy.Form onValidSubmit={this.submit}>
@@ -65,10 +104,10 @@ class PointsAdditionComponent extends React.Component {
 								   value={this.state.xCoord}
 								   onChange={(e) => this.setState({xCoord: e.target.value})}
 								   validations={{
-									validateCoordinate: function (values, value) {
-										return value <= 5000 && value >= -5000;
-									}
-						}}/>
+									   validateCoordinate: function (values, value) {
+										   return value <= 5000 && value >= -5000;
+									   }
+								   }}/>
 						<InputForm name="coordinatesY"
 								   placeholder="Y"
 								   validationError="Coordinates values must be numeric and between {-5000;5000}"
@@ -76,13 +115,16 @@ class PointsAdditionComponent extends React.Component {
 								   value={this.state.yCoord}
 								   onChange={(e) => this.setState({yCoord: e.target.value})}
 								   validations={{
-									validateCoordinate: function (values, value) {
-										return value <= 5000 && value >= -5000;
-									}
-						}}/>
-						<button type="submit" onClick={this.handleAdd} className="btn btn-primary" id="coordinates-btn" placeholder="">Add</button>
+									   validateCoordinate: function (values, value) {
+										   return value <= 5000 && value >= -5000;
+									   }
+								   }}/>
+						<button type="submit" onClick={this.handleAdd} className="btn btn-primary" id="coordinates-btn"
+								placeholder="">Add
+						</button>
 					</Formsy.Form>
 				</div>
+				<FileInput onUpload={this.handleFileUpload}/>
 			</div>
 		);
 	}
