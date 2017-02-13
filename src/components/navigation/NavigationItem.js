@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import toastr from 'toastr';
 
-class NavigationItem extends React.Component {
+export class NavigationItem extends React.Component {
 	constructor(props) {
 		super(props);
 
