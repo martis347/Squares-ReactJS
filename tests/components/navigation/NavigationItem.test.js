@@ -83,7 +83,7 @@ describe('Navigation item behaviour', () => {
 	});
 });
 
-describe('Navigation item behaviour2', () => {
+describe('Navigation item behaviour', () => {
 	let receivedValues = {deleteList: {}, router: {}};
 	const props = {
 		listName: 'listName', paging: {points: {page: 1, pageSize: 2}, squares: {page: 3, pageSize: 4}},
@@ -107,7 +107,7 @@ describe('Navigation item behaviour2', () => {
 				}
 			}
 		};
-		const wrapper = mount(<NavigationItem {...props}/>, {context});
+		const wrapper = shallow(<NavigationItem {...props}/>, {context});
 		const item = wrapper.find('.navigation-item img');
 		item.simulate('click');
 

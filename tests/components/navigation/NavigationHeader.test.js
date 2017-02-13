@@ -35,7 +35,7 @@ describe('Navigation header behaviour', () => {
 				}
 			}
 		};
-		const wrapper = mount(<NavigationHeader listAdd={props.listAdd}/>, {context});
+		const wrapper = shallow(<NavigationHeader listAdd={props.listAdd}/>, {context});
 		const item = wrapper.find('.home');
 		item.simulate('click');
 	});

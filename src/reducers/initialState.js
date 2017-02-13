@@ -3,18 +3,14 @@ export default {
 		ListNames: []
 	},
 	points: {
-		Items: [{
-			SubItems:[],
-			Name: ""
-		}],
-		ItemsCount: 0
+		Points: [],
+		PointsCount: 0
 	},
 	squares: {
-		Items: [{
-			SubItems:[],
-			Name: ""
+		Squares: [{
+			Points: []
 		}],
-		ItemsCount: 0
+		SquaresCount: 0
 	},
 	paging: {
 		squares: {
