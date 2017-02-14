@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import Formsy from 'formsy-react';
 import toastr from 'toastr';
 
+/* eslint-disable react/prefer-es6-class */
 const InputForm = React.createClass({
 	propTypes: {
 		placeholder: PropTypes.string.isRequired,
@@ -14,7 +15,7 @@ const InputForm = React.createClass({
 	render() {
 		const errorMessage = this.getErrorMessage();
 		if(errorMessage){
-			toastr.warning(errorMessage)
+			toastr.warning(errorMessage);
 		}
 		return (
 			<div>

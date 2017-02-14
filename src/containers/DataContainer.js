@@ -60,11 +60,12 @@ class DataContainer extends React.Component {
 				<h1>Points that belong to current list.</h1>
 				<PointsComponent
 					getPoints={this.props.pointsActions.getPoints}
+					getSquares={this.props.squareActions.getSquares}
 					points={this.state.points}
 					listName={this.props.listName}
 					deletePoint={this.props.pointsActions.deletePoints}
 					pagingActions={this.props.pagingActions}
-					paging={this.props.paging.points}
+					paging={this.props.paging}
 				/>
 				<PointsAdditionComponent
 					listName={this.props.listName}

@@ -11,6 +11,10 @@ class PointsTableComponent extends React.Component {
 			points: {
 				Points: [],
 				PointsCount: 0
+			},
+			squares: {
+				Squares: [],
+				SquaresCount: 0
 			}
 		};
 	}
@@ -24,8 +28,10 @@ class PointsTableComponent extends React.Component {
 	handleRowDelete = (data) => {
 		const deletedItem = data;
 		this.props.deletePoint(this.props.listName, [deletedItem]).then(() => {
-			this.props.getPoints(this.props.listName, this.props.paging.page, this.props.paging.pageSize).then(() => {
-				toastr.success(`Successfully deleted point {${deletedItem.X};${deletedItem.Y}}`);
+			this.props.getPoints(this.props.listName, this.props.paging.points.page, this.props.paging.points.pageSize).then(() => {
+				this.props.getSquares(this.props.listName, this.props.paging.squares.page, this.props.paging.squares.pageSize).then( () => {
+					toastr.success(`Successfully deleted point {${deletedItem.X};${deletedItem.Y}}`);
+				});
 			}).catch(error => {
 				error.text().then(error => {
 					toastr.error(error);
@@ -37,7 +43,7 @@ class PointsTableComponent extends React.Component {
 	handlePageClick = (data) => {
 		const nextPage = data.selected + 1;
 		this.props.pagingActions.changePointsPage(nextPage);
-		this.props.getPoints(this.props.listName, nextPage, this.props.paging.pageSize).catch(() => {
+		this.props.getPoints(this.props.listName, nextPage, this.props.paging.points.pageSize).catch(() => {
 			toastr.error("Failed to receive data from server");
 		});
 	};
@@ -52,8 +58,8 @@ class PointsTableComponent extends React.Component {
 
 	emptyLines = () => {
 		let array = [];
-		if (Math.ceil(this.state.points.PointsCount / this.props.paging.pageSize) > 1) {
-			for (let i = this.state.points.Points.length; i < this.props.paging.pageSize; i++) {
+		if (Math.ceil(this.state.points.PointsCount / this.props.paging.points.pageSize) > 1) {
+			for (let i = this.state.points.Points.length; i < this.props.paging.points.pageSize; i++) {
 				array.push(" ");
 			}
 		}
@@ -97,12 +103,12 @@ class PointsTableComponent extends React.Component {
 					</tbody>
 				</table>
 
-				<div className="tablePaginator" key={this.props.paging.pageSize}>
+				<div className="tablePaginator" key={this.props.paging.points.pageSize}>
 					<ReactPaginate previousLabel={"previous"}
 								   nextLabel={"next"}
 								   breakLabel={<a>...</a>}
 								   breakClassName={"break-me"}
-								   pageCount={Math.ceil(this.state.points.PointsCount / this.props.paging.pageSize)}
+								   pageCount={Math.ceil(this.state.points.PointsCount / this.props.paging.points.pageSize)}
 								   marginPagesDisplayed={1}
 								   pageRangeDisplayed={4}
 								   onPageChange={this.handlePageClick}
@@ -120,6 +126,7 @@ class PointsTableComponent extends React.Component {
 
 PointsTableComponent.propTypes = {
 	getPoints: PropTypes.func.isRequired,
+	getSquares: PropTypes.func.isRequired,
 	points: PropTypes.object.isRequired,
 	paging: PropTypes.object.isRequired,
 	listName: PropTypes.string.isRequired,

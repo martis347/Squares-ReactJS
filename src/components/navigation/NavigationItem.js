@@ -13,7 +13,7 @@ class NavigationItem extends React.Component {
 		this.props.pointsActions.getPoints(listName, this.props.paging.points.page, this.props.paging.points.pageSize).then(() => {
 			this.props.squaresActions.getSquares(listName, this.props.paging.squares.page, this.props.paging.squares.pageSize).then(() => {
 				this.redirect(listName);
-			})
+			});
 		}).catch(() => {
 			toastr.error("Failed to receive data from server.");
 		});

@@ -44,7 +44,6 @@ class PointsAdditionComponent extends React.Component {
 	};
 
 	updateData = (successMessage, paging) => {
-		debugger;
 		this.props.getPoints(this.props.listName, paging.points.page, paging.points.pageSize).then(() => {
 			this.props.getSquares(this.props.listName, paging.squares.page, paging.squares.pageSize).catch(() => {
 				toastr.error("Failed to receive data from server");
@@ -57,7 +56,6 @@ class PointsAdditionComponent extends React.Component {
 	};
 
 	handleError = (error, message) => {
-		debugger;
 		if (error.message !== undefined) {
 			toastr.error("Unable to add a new points. Server is not responding.");
 		} else {
